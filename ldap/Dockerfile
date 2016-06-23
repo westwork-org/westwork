@@ -7,6 +7,6 @@ RUN apt-get update && \
 
 VOLUME ["/etc/ldap"]
 
-EXPOSE 389 
+EXPOSE 389
 
-CMD ["nginx"]
+CMD ["slapd"]
