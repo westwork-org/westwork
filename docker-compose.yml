@@ -1,0 +1,17 @@
+version: '2'
+services:
+    nginx:
+        build: ./nginx
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - /data/nginx/conf:/etc/nginx
+            - /data/web:/usr/share/nginx/www
+        restart: always
+    ldap:
+        build: ./ldap
+        ports:
+            - "389"
+        volumes:
+            - /data/ldap:/var/lib/ldap
