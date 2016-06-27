@@ -12,6 +12,6 @@ services:
     ldap:
         build: ./ldap
         ports:
-            - "389"
+            - "389:389"
         volumes:
             - /data/ldap:/var/lib/ldap
