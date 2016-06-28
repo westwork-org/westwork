@@ -17,5 +17,5 @@ services:
             - /var/lib/ldap
         environment:
             - LDAP_ROOTPASS=thisisatest
-            - LDAP_DOMAIN
+            - LDAP_DOMAIN=${LDAP_DOMAIN}
             - LDAP_ORGANISATION=Westwork
