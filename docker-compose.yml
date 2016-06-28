@@ -14,5 +14,8 @@ services:
         expose:
             - "389"
         volumes:
-            - /data/ldap/data:/var/lib/ldap
-            - /data/ldap/conf:/etc/ldap/slap.d
+            - /var/lib/ldap
+        environment:
+            - LDAP_ROOTPASS=thisisatest
+            - LDAP_DOMAIN
+            - LDAP_ORGANISATION=Westwork
