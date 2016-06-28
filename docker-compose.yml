@@ -11,7 +11,8 @@ services:
         restart: always
     ldap:
         build: ./ldap
-        ports:
-            - "389:389"
+        expose:
+            - "389"
         volumes:
-            - /data/ldap:/var/lib/ldap
+            - /data/ldap/data:/var/lib/ldap
+            - /data/ldap/conf:/etc/ldap/slap.d
