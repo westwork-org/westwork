@@ -1,17 +1,17 @@
-FROM resin/rpi-raspbian:jessie
+FROM armhf/alpine:3.3
 
-MAINTAINER Ross Schulman
+MAINTAINER Ross Schulman <ross@rbs.io>
 
-RUN apt-get update && \
-	DEBIAN_FRONTEND=noninteractive apt-get install -y slapd ldap-utils
+RUN apk update && apk add openldap
 
 VOLUME ["/var/lib/ldap"]
+VOLUME ["/etc/openldap"]
 
 EXPOSE 389
+EXPOSE 636
 
-# Avoid ERROR: invoke-rc.d: policy-rc.d denied execution of start.
-RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
+COPY conf/slapd.conf /etc/openldap/slapd.conf
+RUN ["slaptest", "-f", "/etc/openldap/slapd.conf", "-F", "/etc/openldap/slapd.d"]
+RUN ["chown", "-R", "ldap:ldap", "/etc/openldap"]
 
-ADD start.sh /usr/bin/start.sh
-
-CMD ["start.sh"]
+CMD ["slapd", "-h", "ldap:/// ldapi:///", "-g", "ldap", "-u", "ldap", "-d", "0"]

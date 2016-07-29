@@ -13,9 +13,12 @@ services:
         build: ./ldap
         expose:
             - "389"
+            - "636"
         volumes:
-            - /var/lib/ldap
-        environment:
-            - LDAP_ROOTPASS=thisisatest
-            - LDAP_DOMAIN=${LDAP_DOMAIN}
-            - LDAP_ORGANISATION=Westwork
+            - ldap_data:/var/lib/ldap
+            - ldap_conf:/etc/openldap
+volumes:
+    ldap_data:
+        driver: local
+    ldap_conf:
+        driver: local
