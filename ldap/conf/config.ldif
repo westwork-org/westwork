@@ -1,0 +1,48 @@
+dn: cn=config
+objectClass: olcGlobal
+cn: config
+olcIdleTimeout: 30
+olcLogLevel: Stats
+olcReferral: ldap://root.openldap.org
+
+dn: cn=schema,cn=config
+objectClass: olcSchemaConfig
+cn: schema
+
+include: file:///etc/openldap/schema/core.ldif
+
+dn: olcDatabase=frontend,cn=config
+objectClass: olcDatabaseConfig
+olcDatabase: frontend
+olcAccess: to * by * read
+
+dn: olcDatabase=config,cn=config
+objectClass: olcDatabaseConfig
+olcDatabase: config
+olcRootPW: {{{configrootpw}}}
+olcAccess: to * by * none
+
+dn: olcBackend=hdb,cn=config
+objectClass: olcBackendConfig
+olcBackend: hdb
+
+dn: olcDatabase=hdb,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcHdbConfig
+olcDatabase: hdb
+olcSuffix: dc={{{domain}}},dc={{{tld}}}
+olcDbDirectory: /usr/local/var/openldap-data
+olcRootDN: cn=admin,dc={{{domain}}},dc={{{tld}}}
+olcRootPW: secret
+olcDbIndex: uid pres,eq
+olcDbIndex: cn,sn pres,eq,approx,sub
+olcDbIndex: objectClass eq
+olcAccess: to attrs=userPassword
+   by self write
+   by anonymous auth
+   by dn.base="cn=admin,dc={{{domain}}},dc={{{tld}}}" write
+   by * none
+olcAccess: to *
+   by self write
+   by dn.base="cn=admin,dc={{{domain}}},dc={{{tld}}}" write
+   by * read

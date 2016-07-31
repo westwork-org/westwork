@@ -17,6 +17,7 @@ services:
         volumes:
             - ldap_data:/var/lib/ldap
             - ldap_conf:/etc/openldap
+        restart: always
 volumes:
     ldap_data:
         driver: local
