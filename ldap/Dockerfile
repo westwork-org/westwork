@@ -10,8 +10,8 @@ VOLUME ["/etc/openldap"]
 EXPOSE 389
 EXPOSE 636
 
-COPY conf/slapd.conf /etc/openldap/slapd.conf
-RUN ["slaptest", "-f", "/etc/openldap/slapd.conf", "-F", "/etc/openldap/slapd.d"]
+COPY conf/config.ldif /etc/openldap/config.ldif
+RUN ["slapadd", "-F", "/etc/openldap/slapd.d", "-l", "/etc/openldap/config.ldif"]
 RUN ["chown", "-R", "ldap:ldap", "/etc/openldap"]
 
 CMD ["slapd", "-h", "ldap:/// ldapi:///", "-g", "ldap", "-u", "ldap", "-d", "0"]
