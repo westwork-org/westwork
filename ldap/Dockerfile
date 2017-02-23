@@ -1,17 +1,26 @@
-FROM armhf/alpine:3.3
+# Adapted from dinkel/docker-openldap for Raspbian
+FROM resin/rpi-raspbian:jessie
 
 MAINTAINER Ross Schulman <ross@rbs.io>
 
-RUN apk update && apk add openldap
+ENV OPENLDAP_VERSION 2.4.40
 
-VOLUME ["/var/lib/ldap"]
-VOLUME ["/etc/openldap"]
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+        slapd=${OPENLDAP_VERSION}* && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN mv /etc/ldap /etc/ldap.dist
+
+COPY modules/ /etc/ldap.dist/modules
+
+COPY entrypoint.sh /entrypoint.sh
 
 EXPOSE 389
-EXPOSE 636
 
-COPY conf/config.ldif /etc/openldap/config.ldif
-RUN ["slapadd", "-F", "/etc/openldap/slapd.d", "-l", "/etc/openldap/config.ldif"]
-RUN ["chown", "-R", "ldap:ldap", "/etc/openldap"]
+VOLUME ["/etc/ldap", "/var/lib/ldap"]
 
-CMD ["slapd", "-h", "ldap:/// ldapi:///", "-g", "ldap", "-u", "ldap", "-d", "0"]
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["slapd", "-d", "32768", "-u", "openldap", "-g", "openldap"]
