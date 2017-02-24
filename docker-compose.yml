@@ -8,16 +8,20 @@ services:
         volumes:
             - /data/nginx/conf:/etc/nginx
             - /data/web:/usr/share/nginx/www
-        restart: always
+        restart: on-failure:5
     ldap:
         build: ./ldap
         expose:
             - "389"
-            - "636"
+        environment:
+            - SLAPD_PASSWORD={{ldap_password}}
+            - SLAPD_DOMAIN={{domain}}
+            - SLAPD_CONFIG_PASSWORD={{ldap_password}}
+            - SLAPD_ADDITIONAL_SCHEMAS=inetorgperson
         volumes:
             - ldap_data:/var/lib/ldap
             - ldap_conf:/etc/openldap
-        restart: always
+        restart: on-failure:5
 volumes:
     ldap_data:
         driver: local
