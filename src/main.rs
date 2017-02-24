@@ -24,9 +24,6 @@ fn main () {
         admin_user: split[1].to_string(),
         admin_name: split[0].to_string()
     };
-    println!("{}", this_instance.domain);
-    println!("{}", this_instance.admin_user);
-    println!("{}", this_instance.admin_name);
 
     let compose_template = match mustache::compile_path(Path::new("docker-compose.yml.mustache")) {
         Ok(template) => template,
