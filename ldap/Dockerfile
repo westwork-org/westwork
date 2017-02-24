@@ -14,6 +14,7 @@ RUN apt-get update && \
 RUN mv /etc/ldap /etc/ldap.dist
 
 COPY modules/ /etc/ldap.dist/modules
+COPY schema/postfix.ldif /etc/ldap/schema/postfix.ldif
 
 COPY entrypoint.sh /entrypoint.sh
 
