@@ -1,0 +1,8 @@
+[package]
+
+name = "westwork"
+version = "0.0.1"
+authors = [ "Ross Schulman <ross@rbs.io>" ]
+
+[dependencies]
+mustache = "0.8.0"
