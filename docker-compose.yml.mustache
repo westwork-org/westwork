@@ -17,7 +17,9 @@ services:
             - SLAPD_PASSWORD={{root_pass}}
             - SLAPD_DOMAIN={{domain}}
             - SLAPD_CONFIG_PASSWORD={{root_pass}}
-            - SLAPD_ADDITIONAL_SCHEMAS=[inetorgperson, postfix]
+            - SLAPD_ADDITIONAL_SCHEMAS=
+		- inetorgperson
+		- postfix
         volumes:
             - ldap_data:/var/lib/ldap
             - ldap_conf:/etc/openldap
