@@ -19,9 +19,10 @@ struct Instance {
 fn main () {
     // Generate a random password then hash it for inserting into ldap
     // TODO: We should only do this the first time we're started up and save the results
-    let clear_passwd: String = rand::thread_rng().gen_ascii_chars().take(20).collect();
-    passwd = passwd.replace('$', "$$");
-    passwd = passwd.trim().to_string();
+    // let clear_passwd: String = rand::thread_rng().gen_ascii_chars().take(20).collect();
+    // passwd = passwd.replace('$', "$$");
+    // passwd = passwd.trim().to_string();
+    let passwd = "testpassword".to_string();
 
     let mut input = String::new();
     println!("Input your name, username, and domain separated by commas.");
