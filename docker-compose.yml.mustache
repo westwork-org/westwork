@@ -6,8 +6,8 @@ services:
             - "80:80"
             - "443:443"
         volumes:
-            - /data/nginx/conf:/etc/nginx
-            - /data/web:/usr/share/nginx/www
+            - /data/westwork/nginx/conf:/etc/nginx
+            - /data/westwork/web:/usr/share/nginx/www
         restart: on-failure:5
     ldap:
         build: ./ldap
@@ -17,15 +17,9 @@ services:
             - SLAPD_PASSWORD={{root_pass}}
             - SLAPD_DOMAIN={{domain}}
             - SLAPD_CONFIG_PASSWORD={{root_pass}}
-            - SLAPD_ADDITIONAL_SCHEMAS=
-		- inetorgperson
-		- postfix
+            - SLAPD_ADDITIONAL_SCHEMAS="inetorgperson,postfix"
         volumes:
-            - ldap_data:/var/lib/ldap
-            - ldap_conf:/etc/openldap
+            - /data/westwork/ldap/data:/var/lib/ldap
+            - /data/westwork/ldap/conf:/etc/openldap
         restart: on-failure:5
-volumes:
-    ldap_data:
-        driver: local
-    ldap_conf:
-        driver: local
+
