@@ -6,7 +6,6 @@ use std::io::prelude::*;
 use std::io;
 use std::fs::File;
 use std::path::Path;
-use std::process::{Command, Stdio};
 use rand::Rng;
 
 #[derive(RustcEncodable)]
@@ -21,21 +20,6 @@ fn main () {
     // Generate a random password then hash it for inserting into ldap
     // TODO: We should only do this the first time we're started up and save the results
     let clear_passwd: String = rand::thread_rng().gen_ascii_chars().take(20).collect();
-    let output = match Command::new("mkpasswd").arg("-m").arg("SHA-512").arg("-s").stdin(Stdio::piped()).stdout(Stdio::piped()).spawn() {
-        Ok(process) => process,
-        Err(error) => panic!("Unable to generate password, do you have mkpasswd installed? {}", error),
-    };
-    match output.stdin.unwrap().write_all((clear_passwd + "\n").as_bytes()) {
-        Ok(_) => {},
-        Err(error) => panic!("Could not write password to mkpasswd. {}", error),
-    }
-    let mut passwd = String::new();
-    match output.stdout.unwrap().read_to_string(&mut passwd) {
-        Ok(_) => {},
-        Err(error) => panic!("couldn't read mkpasswd stdout: {}", error),
-    }
-    passwd = "{SHA512}".to_string() + &passwd;
-    // Have to do a replace on the string from '$' to '$$'
     passwd = passwd.replace('$', "$$");
     passwd = passwd.trim().to_string();
 
