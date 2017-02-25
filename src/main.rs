@@ -35,6 +35,8 @@ fn main () {
         Err(error) => panic!("couldn't read mkpasswd stdout: {}", error),
     }
     passwd = "{SHA512}".to_string() + &passwd;
+    // Have to do a replace on the string from '$' to '$$'
+    passwd = passwd.replace('$', "$$");
     passwd = passwd.trim().to_string();
 
     let mut input = String::new();
