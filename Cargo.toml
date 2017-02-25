@@ -7,3 +7,4 @@ authors = [ "Ross Schulman <ross@rbs.io>" ]
 [dependencies]
 mustache = "*"
 rustc-serialize = "*"
+rand = "*"
