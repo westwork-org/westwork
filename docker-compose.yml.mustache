@@ -17,9 +17,8 @@ services:
             - SLAPD_PASSWORD={{root_pass}}
             - SLAPD_DOMAIN={{domain}}
             - SLAPD_CONFIG_PASSWORD={{root_pass}}
-            - SLAPD_ADDITIONAL_SCHEMAS="inetorgperson,postfix"
         volumes:
             - /data/westwork/ldap/data:/var/lib/ldap
-            - /data/westwork/ldap/conf:/etc/openldap
+            - /data/westwork/ldap/conf:/etc/ldap
         restart: on-failure:5
 
