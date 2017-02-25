@@ -4,6 +4,7 @@ extern crate rand;
 
 use std::io::prelude::*;
 use std::io;
+use std::fs::File;
 use std::path::Path;
 use std::process::{Command, Stdio};
 use rand::Rng;
@@ -54,5 +55,6 @@ fn main () {
         Ok(template) => template,
         Err(error) => panic!("Could not find docker-compose template: {}", error),
     };
-    compose_template.render(&mut io::stdout(), &this_instance);
+    let mut f = File::create("docker-compose.yml").expect("Could not open docker-compose.yml file. Check permissions?");
+    compose_template.render(&mut f, &this_instance);
 }
