@@ -2,6 +2,7 @@ version: '2'
 services:
     nginx:
         build: ./nginx
+        network_mode: bridge
         ports:
             - "80:80"
             - "443:443"
@@ -11,6 +12,7 @@ services:
         restart: on-failure:5
     ldap:
         build: ./ldap
+        network_mode: bridge
         expose:
             - "389"
         environment:
