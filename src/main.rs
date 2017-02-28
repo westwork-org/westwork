@@ -1,4 +1,7 @@
-extern crate mustache;
+#![feature(plugin)]
+#![plugin(rocket_codegen)]
+
+extern crate rocket;
 
 fn main () {
 }

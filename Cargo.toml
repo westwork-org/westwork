@@ -5,6 +5,5 @@ version = "0.0.1"
 authors = [ "Ross Schulman <ross@rbs.io>" ]
 
 [dependencies]
-mustache = "*"
-rustc-serialize = "*"
-rand = "*"
+rocket = "0.2.2"
+rocket_codegen = "0.2.2"
