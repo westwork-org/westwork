@@ -3,19 +3,22 @@
   <head>
     <meta charset="utf-8">
     <title>Westwork</title>
-    <link rel="stylesheet" href="westwork_style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="styles/westwork_style.css">
   </head>
   <body>
-      <div>Welcome to Westwork</div>
-      <div>What is your name?</div>
-      <div>
-          <form action="/config" method="POST">
-              <div>
-                  <input type="text" id="first" value="First">
-              </div>
-              <div>
-                  <input type="text" id="last" value="Last">
-              </div>
-          </form>
+      <div id="holder">
+          <div class="westwork-message">Hello. I'm Westwork.</div>
+          <div class="westwork-message">And you are?</div>
+          <div>
+              <form action="/config" method="POST" class="form-style-4">
+                  <div>
+                      <input type="text" id="first" placeholder="First" />
+                      <input type="text" id="last" placeholder="Last" />
+                      <input type="submit" style="display: none" />
+                  </div>
+              </form>
+          </div>
+      </div>
   </body>
 </html>

@@ -5,9 +5,15 @@ extern crate rocket;
 extern crate rocket_contrib;
 
 use std::collections::HashMap;
+use std::fs::File;
 use rocket_contrib::Template;
 
 const FIRST_RUN: bool = true;
+
+#[get("/styles/westwork_style.css")]
+fn get_css() -> File {
+    File::open("static/westwork_style.css").expect("Couldn't find css file.")
+}
 
 #[get("/")]
 fn index () -> Template {
@@ -29,5 +35,5 @@ fn index () -> Template {
 }
 
 fn main () {
-    rocket::ignite().mount("/", routes![index]).launch();
+    rocket::ignite().mount("/", routes![index, get_css]).launch();
 }
