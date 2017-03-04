@@ -6,7 +6,8 @@ use websocket::{Server, Message};
 
 fn main () {
 
-    let server = match Server::bind("127.0.0.1:8000") {
+    let server = match Server::bind("127.0.0.1:8000") { 
+        // Of course this should be a secure websocket eventually
         Ok(connection) => connection,
         Err(e) => panic!("Could not bind websocket server: \{:?}", e)
     };
