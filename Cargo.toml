@@ -5,4 +5,4 @@ version = "0.0.1"
 authors = [ "Ross Schulman <ross@rbs.io>" ]
 
 [dependencies]
-
+websocket = "*"
