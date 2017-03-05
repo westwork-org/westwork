@@ -4,6 +4,8 @@ use std::path::Path;
 use std::thread;
 use websocket::{Server, Message};
 
+mod client_connection;
+
 fn main () {
 
     let server = match Server::bind("127.0.0.1:8000") { 
@@ -17,7 +19,7 @@ fn main () {
             let request = new_conn.unwrap().read_request().unwrap();
             let response = request.accept(); // Form a response
             let mut client = response.send().unwrap(); // Send the response
-            ClientConnection::new(client);
+            client_connection::ClientConnection::new(client);
         });
     }
 }
