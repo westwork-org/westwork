@@ -1,12 +1,20 @@
 struct ClientConnection {
-    authed_used: Option<User>,
+    authed_user: Option<User>,
+    handle: websocket::client::Client,
 }
 
 impl ClientConnection {
     pub fn new (handle: websocket::client::Client) {
+        ClientConnection {
+            authed_user: None,
+            handle: handle,
+        }
+    }
+
+    pub fn listen(&self) {
         // Loop to listen for messages
         // We will probably have to also spawn a second thread to send eventually
-        let (mut sender, mut receiver) = client.split();
+        let (mut sender, mut receiver) = self.handle.split();
 
         // TODO: Make a channel here
 
@@ -23,27 +31,27 @@ impl ClientConnection {
                     Type::Binary => {
                         println!("Got a binary websocket message??");
                         continue;
-                    }
+                    },
                     Type::Pong => {
                         // Right now I don't think we have to do anything with this.
-                    }
+                    },
                     Type::Ping => {
                         send_loop.send(message.into_pong().unwrap()); // This shouldn't ever fail.
-                    }
+                    },
                     Type::Close => {
                         println!("Received close from client, shutting down thread.");
                         send_loop.send("SHUTDOWN");
                         receiver.shutdown_receiver();
                         break;
-                    }
+                    },
                     Type::Text => {
-                        
-                    }
+
+                    },
 
 
                 }
             }
-        })
+        });
         loop {
             // Sender loop here.
         }
