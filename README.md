@@ -14,7 +14,7 @@ The purpose of Westwork is to reverse this trend. The public should have options
 Engineering Vision
 ---
 Westwork will be composed of:
-* A suite of battle-tested independent services running in Docker containers, each doing one thing and interacting with one another, e.g.
+* A suite of battle-tested independent services designed to run on a Raspberry Pi (or equivalent), each doing one thing and interacting with one another, e.g.
     * Nginx for web serving
     * Postfix for mail receipt
     * LDAP for user management
@@ -36,8 +36,8 @@ Current Steps
     * LDAP
     * Owncloud (maybe)
     * Let's Encrypt for certs
-* Create Dockerfiles for the MVP
+* Create Raspberry Pi image generator (see the [westwork-gen](https://github.com/westwork-org/westwork-gen) repository)
 * Create configuration files for the MVP services, in template form
     * Security is one of our most vital priorities, so these configs should err on the side of caution
-* Figure out some way to spin up the server for the first time and fill out configuration files
+* Figure out how to spin up the server for the first time and fill out configuration files (see the [westwork-bootstrap](https://github.com/westwork-org/westwork-bootstrap) repository)
 * Some simple configuration panel that can administer - e.g. add users
