@@ -1,7 +1,7 @@
 extern crate config;
 use config::{Config, File, FileFormat};
 
-const settings_path = "/data/conf/westwork/settings.yaml"
+const settings_path: String = "/data/conf/westwork/settings.yaml"
 
 fn main () {
     let mut conf = config::Config::new();
@@ -12,7 +12,7 @@ fn main () {
         conf.set(&"configured", false);
     }
 
-    
+
     
 
 }
