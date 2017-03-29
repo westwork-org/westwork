@@ -1,4 +1,9 @@
+#![feature(plugin)]
+#![plugin(rocket_codegen)]
+
 extern crate config;
+extern crate rocket;
+
 use config::{Config, File, FileFormat};
 
 const settings_path: String = "/data/conf/westwork/settings.yaml"

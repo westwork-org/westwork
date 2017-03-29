@@ -8,3 +8,7 @@ authors = [ "Ross Schulman <ross@rbs.io>" ]
 version = "0.4"
 default-features = false
 features = ["yaml"]
+
+[dependencies]
+rocket = "0.2.3"
+rocket-codegen = "0.2.3"
