@@ -6,6 +6,8 @@ extern crate rocket;
 
 use config::{Config, File, FileFormat};
 
+mod bootstrap;
+
 const settings_path: String = "/data/conf/westwork/settings.yaml"
 
 fn main () {
@@ -18,6 +20,6 @@ fn main () {
     }
 
 
-    
+    rocket::ignite().mount("/", routes!([bootstrap::add_name])).manage(conf).launch();
 
 }
