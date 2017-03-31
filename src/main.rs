@@ -2,6 +2,7 @@
 #![plugin(rocket_codegen)]
 
 extern crate config;
+extern crate libc;
 extern crate rocket;
 extern crate serde_json;
 #[macro_use] extern crate rocket_contrib;

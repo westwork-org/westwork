@@ -3,12 +3,84 @@ use config::Config;
 use rocket_contrib::{JSON, Value};
 use std::collections::HashMap;
 use WestworkConf;
+use libc::c_int;
+use std::ffi::CString;
+use std::ptr;
 
 // TODO: How to handle names that don't follow the First Last template
 #[derive(Deserialize)]
 struct Name {
     first: String,
     last: String
+}
+static IW_AUTH_WPA_VERSION_DISABLED: u8 =   0x00000001
+static IW_AUTH_WPA_VERSION_WPA: u8 =		0x00000002
+static IW_AUTH_WPA_VERSION_WPA2: u8 =     	0x00000004
+
+#[derive(Deserialize)]
+struct WifiNetwork{
+    SSID: String,
+    encryption: String,
+    strength: i16,
+}
+
+enum iwrange {}
+enum wireless_scan_head {}
+enum wireless_scan {}
+
+#[link(name="iwlib")]
+extern {
+    fn iw_socket_open() -> c_int;
+    fn iw_get_range_info(socket: c_int,
+                         interface: CString,
+                         range: &iwrange) -> c_int;
+    fn iw_scan(socket: c_int,
+               interface: CString,
+               version: c_int,
+               head: &wireless_scan_head) -> c_int;
+}
+
+#[get("/wifi_list")]
+fn wifi_list() -> JSON<Value> {
+    unsafe {
+        let sock = iw_socket_open();
+        let interface_name = CString::new("wlan0").unwrap();
+        let range: iwrange;
+        let head: wireless_scan_head;
+        if iw_get_range_info(sock, interface_name, &range) < 0 {
+            let mut resp = HashMap::new();
+            resp.insert("success", "false");
+            resp.insert("error", "Could not retrieve wireless network list.");
+            JSON(json!(resp))
+        }
+        if iw_scan(sock, interface_name, range.we_version_compiled, &head) <0 {
+            let mut resp = HashMap::new();
+            resp.insert("success", "false");
+            resp.insert("error", "Could not retrieve wireless network list.");
+            JSON(json!(resp))
+        }
+        result = head.result;
+        let mut list = Vec::new();
+        while result != ptr::null {
+            let answer = if result.b.key_flags & IW_AUTH_WPA_VERSION_DISABLED > 0 {
+                "None".to_string()
+            } else if result.b.key_flags & IW_AUTH_WPA_VERSION_WPA > 0 {
+                "WPA".to_string()
+            } else if result.b.key_flags & IW_AUTH_WPA_VERSION_WPA2 > 0 {
+                "WPA2".to_string()
+            } ;
+            list.push(WifiNetwork {
+                SSID: result.b.essid.to_string(),
+                encryption: answer, // TODO Figure out how to get encryption type from `result`
+                strength: result.stats
+            });
+            result = result.next;
+        }
+        resp.insert("success", "false");
+        resp.insert("networks", json!(list));
+        JSON(json!(resp))
+
+    }
 }
 
 #[post("/add_name", format = "application/json", data = "<name>")]
