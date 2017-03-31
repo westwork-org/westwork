@@ -4,4 +4,19 @@ name = "westwork"
 version = "0.0.1"
 authors = [ "Ross Schulman <ross@rbs.io>" ]
 
+[dependencies.config]
+version = "0.4"
+default-features = false
+features = ["yaml"]
+
 [dependencies]
+rocket = "0.2.3"
+rocket_codegen = "0.2.3"
+serde = "0.9"
+serde_json = "0.9"
+serde_derive = "0.9"
+
+[dependencies.rocket_contrib]
+version = "0.2.3"
+default-features = false
+features = ["json"]
