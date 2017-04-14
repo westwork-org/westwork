@@ -87,7 +87,7 @@ fn wifi_list() -> JSON<Value> {
     }
     let mut resp = HashMap::new();
     resp.insert("success", "false");
-    resp.insert("networks", json!(list));
+    resp.insert("networks", json!(list).to_string().as_str());
     JSON(json!(resp))
 }
 
