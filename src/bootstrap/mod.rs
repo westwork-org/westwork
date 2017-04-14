@@ -17,7 +17,7 @@ static IW_AUTH_WPA_VERSION_DISABLED: u8 =   0x00000001;
 static IW_AUTH_WPA_VERSION_WPA: u8 =		0x00000002;
 static IW_AUTH_WPA_VERSION_WPA2: u8 =     	0x00000004;
 
-#[derive(Deserialize)]
+#[derive(Serialize, Deserialize)]
 struct WifiNetwork{
     SSID: String,
     encryption: String,
@@ -65,7 +65,7 @@ fn wifi_list() -> JSON<Value> {
         resp.insert("error", "Could not retrieve wireless network list.");
         JSON(json!(resp))
     }
-    result = head.result;
+    let result = head.result;
     let mut list = Vec::new();
     while result != ptr::null {
         // The scan results are a linked list of structs with a bunch of information about each network
