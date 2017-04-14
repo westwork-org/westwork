@@ -56,14 +56,14 @@ fn wifi_list() -> JSON<Value> {
         let mut resp = HashMap::new();
         resp.insert("success", "false");
         resp.insert("error", "Could not retrieve wireless network list.");
-        JSON(json!(resp))
+        return JSON(json!(resp));
     }
     if unsafe { iw_scan(sock, interface_name, range.we_version_compiled, &head) } <0 {
         // This is the actual scan call that fills in the `head` struct with information about the visible networks.
         let mut resp = HashMap::new();
         resp.insert("success", "false");
         resp.insert("error", "Could not retrieve wireless network list.");
-        JSON(json!(resp))
+        return JSON(json!(resp));
     }
     let result = head.result;
     let mut list = Vec::new();
@@ -71,13 +71,13 @@ fn wifi_list() -> JSON<Value> {
         // The scan results are a linked list of structs with a bunch of information about each network
         // The type of encryption is encoded in a bitflag called `key_flags` which we check by doing
         // a bitwise and against the known bitflags.
-        let answer = if result.b.key_flags & IW_AUTH_WPA_VERSION_DISABLED > 0 {
-            "None".to_string()
-        } else if result.b.key_flags & IW_AUTH_WPA_VERSION_WPA > 0 {
+        let answer = if result.b.key_flags & IW_AUTH_WPA_VERSION_WPA > 0 {
             "WPA".to_string()
         } else if result.b.key_flags & IW_AUTH_WPA_VERSION_WPA2 > 0 {
             "WPA2".to_string()
-        } ;
+        } else {
+            "None".to_string()
+        };
         list.push(WifiNetwork {
             SSID: result.b.essid.to_string(),
             encryption: answer, // TODO Figure out how to get encryption type from `result`
