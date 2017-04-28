@@ -1,3 +1,5 @@
+[![Join us on Matrix](https://img.shields.io/badge/community-matrix-lightgrey.svg)](https://vector.im/beta/#/room/#westwork:westwork.org)
+
 Westwork
 ===
 
