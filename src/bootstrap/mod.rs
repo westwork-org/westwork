@@ -3,7 +3,7 @@ use config::Config;
 use rocket_contrib::{JSON, Value};
 use std::collections::HashMap;
 use WestworkConf;
-use libc::c_int;
+use libc::*;
 use std::ffi::CString;
 use std::ptr;
 
@@ -24,7 +24,8 @@ struct WifiNetwork{
     strength: i16,
 }
 
-enum iwrange {}
+
+
 enum wireless_scan_head {}
 enum wireless_scan {}
 
