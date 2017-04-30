@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+message Empty {
+
+}
+
+message Name {
+    string first = 1;
+    string last = 2;
+}
+
+message UserName {
+    string username = 1;
+}
+
+message WifiList {
+    repeated Network networks = 1;
+}
+
+message Network {
+    string SSID = 1;
+    int32 strength = 2;
+    enum Encryption {
+        NONE = 0;
+        WEP = 1;
+        WPA = 2;
+        WPA2 = 3;
+    }
+    Encryption encryption = 3;
+}
+
+message Domain {
+    string domain = 1;
+    string tld = 2;
+}
+
+service Bootstrap {
+    rpc SetName (Name) returns (Empty);
+    rpc SetUserName (UserName) returns (Empty);
+    rpc GetWifi (Empty) returns (WifiList);
+    rpc SetWifi (Network) returns (Empty);
+}
